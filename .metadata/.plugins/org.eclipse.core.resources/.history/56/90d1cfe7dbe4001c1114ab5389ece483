@@ -1,0 +1,90 @@
+package jpanels;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import frame.Frame;
+import images.Texture;
+import javax.swing.JScrollBar;
+import javax.swing.JSpinner;
+
+public class Launcher extends JPanel {
+	private JTextField heightTextField;
+	private Texture texture;
+
+	
+	public Launcher() throws FontFormatException, IOException {
+		
+		setLayout(null);
+		setBounds(0, 0, 1080, 720);
+		texture = new Texture();
+		
+		JButton playBtn = new JButton("Play");
+		playBtn.setForeground(Color.BLACK);
+		
+		playBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Frame.gameOn();
+			}
+		});
+		playBtn.setBounds(322, 407, 100, 33);
+		add(playBtn);
+		
+		JLabel heightLabel = new JLabel("Height: ");
+		heightLabel.setBounds(456, 416, 46, 14);
+		add(heightLabel);
+		
+		heightTextField = new JTextField();
+		heightTextField.setText("3");
+		heightTextField.setBounds(500, 413, 86, 20);
+		add(heightTextField);
+		heightTextField.setColumns(10);
+		
+		JButton upBtn = new JButton("Up");
+		upBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Game.height = Math.min(Game.height+1, 5);
+				heightTextField.setText("" + Game.height);
+			}
+		});
+		upBtn.setBounds(500, 385, 89, 23);
+		add(upBtn);
+		
+		JButton downBtn = new JButton("Down");
+		downBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Game.height = Math.max(Game.height-1, 3);
+				heightTextField.setText("" + Game.height);
+			}
+		});
+		downBtn.setBounds(500, 438, 89, 23);
+		add(downBtn);
+		
+		JButton exitBtn = new JButton("Exit");
+		exitBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		exitBtn.setBounds(672, 412, 89, 23);
+		add(exitBtn);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setBounds(424, 233, 41, 33);
+		add(spinner);
+		
+		JLabel background = new JLabel(new ImageIcon(texture.background));
+		background.setBounds(getBounds());
+		//add(background);
+	}
+}

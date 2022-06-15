@@ -1,0 +1,87 @@
+package towerOfHaNoi;
+
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import javax.swing.JLabel;
+
+public class frame extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					frame frame = new frame();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public frame() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1080, 720);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.GRAY);
+		panel.setForeground(Color.BLACK);
+		panel.setBounds(10, 11, 1054, 636);
+		contentPane.add(panel);
+		panel.setLayout(null);
+
+		
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\thenf\\Downloads\\despise.jpg"));
+		lblNewLabel.setBounds(271, 46, 500, 500);
+		panel.add(lblNewLabel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(192, 30, 729, 579);
+		panel.add(panel_1);
+		panel_1.setVisible(false);
+
+		JButton btnNewButton = new JButton("click me");
+		btnNewButton.setFont(new Font("Arial", Font.PLAIN, 11));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel.setBackground(Color.WHITE);
+			
+			}
+		});
+		btnNewButton.setBounds(491, 658, 89, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_1.setVisible(true);
+				panel.setVisible(false);
+			}
+		});
+		btnNewButton_1.setBounds(10, 11, 89, 23);
+		panel.add(btnNewButton_1);
+	}
+}

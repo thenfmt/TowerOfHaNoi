@@ -1,0 +1,82 @@
+package jpanels;
+
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import frame.Frame;
+import images.Texture;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+
+public class Launcher extends JPanel {
+	private Texture texture;
+
+	
+	public Launcher() throws FontFormatException, IOException {
+		
+		setLayout(null);
+		setBounds(0, 0, 1080, 720);
+		texture = new Texture();
+		
+		JButton btnPlay = new JButton("");
+		//btnPlay.setFont(new Font("SP3 - Traveling Typewriter", Font.BOLD, 25));
+		//btnPlay.setForeground(Color.GRAY);
+		//btnPlay.setBackground(Color.BLACK);
+		btnPlay.setIcon(new ImageIcon(texture.iconImg[2].getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
+		btnPlay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Frame.gameOn();
+			}
+		});
+		btnPlay.setBounds(254, 445, 50, 50);
+		
+		add(btnPlay);
+		
+		JLabel lblHeight = new JLabel("Height: 3");
+		lblHeight.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeight.setBounds(498, 455, 89, 20);
+		add(lblHeight);
+		
+		JButton btnUp = new JButton("Up");
+		btnUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Game.height = Math.min(Game.height+1, 5);
+				lblHeight.setText("Height: " + Game.height);
+			}
+		});
+		btnUp.setBounds(498, 428, 89, 23);
+		add(btnUp);
+		
+		JButton btnDown = new JButton("Down");
+		btnDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Game.height = Math.max(Game.height-1, 3);
+				lblHeight.setText("Height: " + Game.height);
+			}
+		});
+		btnDown.setBounds(498, 481, 89, 23);
+		add(btnDown);
+		
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnExit.setBounds(676, 455, 89, 23);
+		add(btnExit);
+		
+		JLabel background = new JLabel(new ImageIcon(texture.background));
+		background.setBounds(getBounds());
+		add(background);
+	}
+}

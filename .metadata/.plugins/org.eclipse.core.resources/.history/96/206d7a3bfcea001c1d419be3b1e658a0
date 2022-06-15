@@ -1,0 +1,5 @@
+package playerException;
+
+public class PlayerException {
+
+}

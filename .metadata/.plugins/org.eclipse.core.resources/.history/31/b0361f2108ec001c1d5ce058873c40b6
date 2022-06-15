@@ -1,0 +1,29 @@
+package jpanels;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
+import frame.Frame;
+
+public class GamePlay extends Game {
+	
+	public GamePlay() {
+		super();
+		setAllowMove(true);
+		setAllowPick(true);
+		
+		
+		JButton hintBtn = new JButton("Hint");
+		hintBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Frame.HintOn();
+			}
+		});
+		hintBtn.setBounds(100, 33, 89, 23);
+		add(hintBtn);
+		
+		add(background);
+	}
+}

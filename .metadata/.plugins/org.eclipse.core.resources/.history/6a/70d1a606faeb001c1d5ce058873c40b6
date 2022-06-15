@@ -1,0 +1,77 @@
+package jpanels;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import button.RoundButton;
+import frame.Frame;
+import images.Texture;
+
+public class Launcher extends JPanel {
+	private Texture texture;
+
+	
+	public Launcher() throws FontFormatException, IOException {
+		
+		setLayout(null);
+		setBounds(0, 0, 1080, 720);
+		texture = new Texture();
+		
+		RoundButton btnPlay = new RoundButton(50, 50, 5);
+		btnPlay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Frame.gameOn();
+			}
+		});
+		btnPlay.setBounds(318, 445, 50, 50);
+		add(btnPlay);
+		
+		JLabel lblHeight = new JLabel("Height: 3");
+		lblHeight.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHeight.setBounds(498, 455, 89, 20);
+		add(lblHeight);
+		
+		RoundButton btnUp = new RoundButton(25, 25, 7);
+		btnUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Game.height = Math.min(Game.height+1, 5);
+				lblHeight.setText("Height: " + Game.height);
+			}
+		});
+		btnUp.setBounds(558, 445, 50, 50);
+		add(btnUp);
+		
+		RoundButton btnDown = new RoundButton(25, 25, 3);
+		btnDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Game.height = Math.max(Game.height-1, 3);
+				lblHeight.setText("Height: " + Game.height);
+			}
+		});
+		btnDown.setBounds(438, 445, 50, 50);
+		add(btnDown);
+		
+		RoundButton btnExit = new RoundButton(50, 50, 1);
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnExit.setBounds(1020, 11, 50, 50);
+		add(btnExit);
+		
+		JLabel background = new JLabel(new ImageIcon(texture.background));
+		background.setBounds(getBounds());
+		add(background);
+	}
+}

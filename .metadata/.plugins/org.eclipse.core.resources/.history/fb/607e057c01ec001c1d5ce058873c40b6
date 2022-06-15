@@ -1,0 +1,13 @@
+package label;
+
+import java.awt.Font;
+
+import javax.swing.JLabel;
+
+public class CustomLabel extends JLabel{
+	public CustomLabel(String title) {
+		super(title);
+		setFont(new Font("/SP3-Traveling-Typewriter.otf", Font.PLAIN, 20));
+	}
+
+}

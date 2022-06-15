@@ -1,0 +1,101 @@
+package jpanels;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import frame.Frame;
+import images.Texture;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Launcher extends JPanel {
+	private JTextField heightTextField;
+	private Texture texture;
+
+	
+	public Launcher() throws FontFormatException, IOException {
+		
+		setLayout(null);
+		setBounds(0, 0, 1080, 720);
+		texture = new Texture();
+		
+		JButton playBtn = new JButton("");
+		playBtn.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				playBtn.setBackground(new Color(107, 156, 223, 0));
+			}
+		});
+		playBtn.setForeground(Color.DARK_GRAY);
+		playBtn.setFont(new Font("ROCK-ON Shadowed Demo", Font.PLAIN, 35));
+		
+		playBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Frame.gameOn();
+			}
+		});
+		playBtn.setBounds(269, 585, 100, 100);
+		playBtn.setIcon(new ImageIcon(texture.btnImg[2].getScaledInstance(playBtn.getWidth()-5, playBtn.getHeight()-5, Image.SCALE_DEFAULT)));
+		//playBtn.setMargin(new Insets(0, 0, 0, 0));
+		// to add a different background
+		playBtn.setBackground(new Color(107, 156, 223, 0));
+		// to remove the border
+		playBtn.setBorder(null);
+		add(playBtn);
+		
+		JLabel heightLabel = new JLabel("Height: ");
+		heightLabel.setBounds(462, 593, 46, 14);
+		add(heightLabel);
+		
+		heightTextField = new JTextField();
+		heightTextField.setText("3");
+		heightTextField.setBounds(506, 590, 86, 20);
+		add(heightTextField);
+		heightTextField.setColumns(10);
+		
+		JButton upBtn = new JButton("Up");
+		upBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Game.height = Math.min(Game.height+1, 5);
+				heightTextField.setText("" + Game.height);
+			}
+		});
+		upBtn.setBounds(506, 562, 89, 23);
+		add(upBtn);
+		
+		JButton downBtn = new JButton("Down");
+		downBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Game.height = Math.max(Game.height-1, 3);
+				heightTextField.setText("" + Game.height);
+			}
+		});
+		downBtn.setBounds(506, 615, 89, 23);
+		add(downBtn);
+		
+		JButton exitBtn = new JButton("Exit");
+		exitBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		exitBtn.setBounds(678, 589, 89, 23);
+		add(exitBtn);
+		
+		JLabel background = new JLabel(new ImageIcon(texture.background));
+		background.setBounds(getBounds());
+		add(background);
+	}
+}
