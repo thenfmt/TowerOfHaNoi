@@ -10,13 +10,13 @@
   2. Clone project và mở trong IDE workspace
 
 ## How to use
-  Có 3 cửa sổ chính: launcher, game play và hint
+### Có 3 cửa sổ chính: launcher, game play và hint
     1. Launcher
         - <img
            src="/TowerOfHaNoi/images/launcher.png"
-           alt="Alt text"
-           title="Optional title"
-            style="display: inline-block; margin: 0 auto; max-width: 300px">
+           alt=""
+           title="Ảnh chụp màn hình"
+            style="display: inline-block; margin: 0 auto; max-width: 250px">
         - Cửa sổ đầu tiên hiển thị khi chạy chương trình.
         - Tại cửa sổ này người 
 
