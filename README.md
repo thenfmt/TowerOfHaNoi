@@ -16,7 +16,7 @@
            src="/TowerOfHaNoi/images/launcher.png"
            alt=""
            title="Ảnh chụp màn hình"
-            style="display: inline-block; margin: 0 auto; max-width: 250px">
+            style="display: inline-block; margin: 0 auto; max-width: 100px">
         - Cửa sổ đầu tiên hiển thị khi chạy chương trình.
         - Tại cửa sổ này người 
 
