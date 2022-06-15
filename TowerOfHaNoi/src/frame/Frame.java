@@ -17,7 +17,7 @@ public class Frame extends JFrame {
 
 	private static JPanel contentPane;
 	static CardLayout cardLayout;
-	public static Texture texture;
+	public static Texture texture = new Texture();
 	
 	
 	/**
@@ -40,7 +40,7 @@ public class Frame extends JFrame {
 	
 	public Frame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		texture = new Texture();
+		
 		setBounds(0, 0, 1105, 770);
 		contentPane = new JPanel();
 		contentPane.setVisible(true);
