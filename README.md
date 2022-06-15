@@ -23,5 +23,11 @@
       - Bạn có thể sử dụng cột ở giữa làm cột trung gian. 
       - Khi số đĩa đã nằm đúng vị trí thì bạn đã hoàn thành thử thách
       - Nếu không thể tìm được lời giải hoặc không thể giải với số bước ngắn nhất thì bạn có thể tham khảo lời giải của chúng tôi bằng cách click vào icon <img src="/images/help.png" width="20">
+      - Bạn cũng có thể trở về màn hình Launcher thông qua biểu tượng <img src="/images/home.png" width="20"> để thay đổi số lượng đĩa.
+     
+   3. Hint 
+      - <img src="/images/hint.png" width="500">.
+      - Bạn có thể xem các bước mà chúng tôi gợi ý thông qua các icon <img src="/images/back.png" width="20"> và <img src="/images/next.png" width="20">
+      - Bạn cũng có thể bắt đầu game mới hoặc trở về menu thông qua các biểu tượng <img src="/images/play.png" width="20"> và <img src="/images/home.png" width="20">
 
 ## Explain
