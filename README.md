@@ -12,7 +12,7 @@
 ## How to use
   Có 3 cửa sổ chính: launcher, gamePlay và hint
       1. Launcher
-          - ![this is an image](/images/launcher.png = 250x250)
+          - <img src="/images/launcher.png" width="500">
           - Tại launcher bạn có thể click vào icon ![playIcon](/images/play.png) để bắt đầu màn hình gamePlay
           - Hoặc thoát chương trình bằng cách click vào icon ![exit](/images/exit.png)
           - Bạn cũng có thể tăng hoặc giảm số lượng đĩa bằng các icon ![minus](/images/minus.png) ![add](/images/add.png)
