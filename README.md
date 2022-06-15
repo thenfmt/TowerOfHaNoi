@@ -7,12 +7,14 @@
   1. Yêu cầu 
       - Java Development Kit (JDK)
       - IDE (recommended Eclipse)
-  2. Clone project và mở trong IDE workspace
+  2. Clone project về mà mở trong workspace của IDE
 
 ## How to use
-  1. Có 3 cửa sổ chính: launcher, game play và hint
-      - Launcher
-        ![this is an image](/images/launcher.png)
-
+  Có 3 cửa sổ chính: launcher, gamePlay và hint
+      1. Launcher
+          - ![this is an image](/images/launcher.png)
+          - Tại launcher bạn có thể click vào icon ![playIcon](/images/play.png) để bắt đầu màn hình gamePlay
+          - Hoặc thoát chương trình bằng cách click vào icon ![exit](/images/exit.png)
+          - Bạn cũng có thể tăng hoặc giảm số lượng đĩa bằng các icon ![minus](/images/minus.png) ![add](/images/add.png)
 
 ## Explain
