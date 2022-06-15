@@ -13,7 +13,7 @@
   Có 3 cửa sổ chính: launcher, game play và hint
     1. Launcher
         - <img
-           src="/images/launcher.png"
+           src="/TowerOfHaNoi/images/launcher.png"
            alt="Alt text"
            title="Optional title"
             style="display: inline-block; margin: 0 auto; max-width: 300px">
