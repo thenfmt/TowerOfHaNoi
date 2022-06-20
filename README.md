@@ -72,20 +72,22 @@
           - JLabel: Lớp JLabel trong Java Swing có thể hiển thị hoặc text, hoặc hình ảnh hoặc cả hai. Các nội dung của Label được gán bởi thiết lập căn chỉnh ngang và dọc trong khu vực hiển thị của nó.
           - SpriteSheet: Có thể hiểu đơn giản SpriteSheet là một bức ảnh lớn chứa nhiều bức ảnh nhỏ. Chương trình sử dụng SpriteSheet bởi vì có thể tối ưu được thời gian load file từ chương trình. Thay vì tạo nhiều request load file, ta chỉ cần load 1 sheet image và cắt các subimage từ sheet image
        - Chương trình sử dụng class LoadImage để load ảnh từ file
-          ```
-            public class LoadImage {
-              private BufferedImage image;
+          - LoadImage
+            ```
+              public class LoadImage {
+                private BufferedImage image;
 
-              public BufferedImage loadImage(String path) {
-                try {
-                  image = ImageIO.read(getClass().getResource(path));
-                } catch (IOException e) {
-                  e.printStackTrace();
+                public BufferedImage loadImage(String path) {
+                  try {
+                    image = ImageIO.read(getClass().getResource(path));
+                  } catch (IOException e) {
+                    e.printStackTrace();
+                  }
+                return image;
                 }
-              return image;
               }
-            }
        - Chương trình sử dụng class Texture để cắt ảnh từ SpriteSheet và quản lí chúng
+          - SpriteSheet:
             ```
               public class SpriteSheet {
                 private BufferedImage image;
@@ -100,7 +102,8 @@
                 }
               }
 
-              
+          - Texture:
+            ```
               public class Texture {
 
                   SpriteSheet iconSheet, objectSheet;
@@ -145,4 +148,65 @@
               }
        - Chương trình sử dụng JLabel và coi ảnh là icon của JLabel 
           - Vì ảnh không phải là một component nên không thể thêm trực tiếp vào JPanel. Thông qua JLabel ta có thể thêm ảnh vào Jpanel dưới dạng icon của JLabel.
-       - 
+   3. Các đối tượng
+       - Chương trình có hai đối tượng chính Rod và Disk. Cả hai đều được kế thừa từ JLabel để thêm ảnh dưới dạng icon như đã nói ở trên và implements interface MyShape.
+         - Interface MyShape: Có duy nhất phương thức setShape() để định hình cho object
+           ```
+              public interface MyShape {
+                Shape setShape(int width, int height);
+              }
+          - Disk
+            ```
+            public class Disk extends JLabel implements MyShape{
+              public Disk(ImageIcon img) {
+                super(img);
+              }
+
+              @Override
+              public Shape setShape(int width, int height) {
+                this.setSize(width, height);
+                return null;
+              }
+            }
+            
+           - Rod: Sử dụng stack để lưu chứ và quản lí số Disk nằm tại các cột.
+             ```
+             public class Rod extends JLabel implements MyShape {
+	
+                private boolean pick = false;
+                public Stack<Disk> stack = new Stack<Disk>();
+
+                public Rod(ImageIcon img) {
+                  super(img);
+                }
+
+                public void pushStack(Disk disk) {
+                  stack.push(disk);
+                }
+
+                public Disk peekStack() {
+                  return stack.peek();
+                }
+
+                public Disk popStack() {
+                  return stack.pop();
+                }
+
+                public boolean isPick() {
+                  return pick;
+                }
+
+                public void setPick(boolean pick) {
+                  this.pick = pick;
+                }
+
+                @Override
+                public Shape setShape(int width, int height) {
+                  this.setSize(width, height);
+                  return null;
+                }
+
+              }
+
+
+        
