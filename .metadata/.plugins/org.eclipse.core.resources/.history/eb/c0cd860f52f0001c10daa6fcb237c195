@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import frame.Frame;
-import myInterface.MyShape;
+import objects.MyShape;
 
 public class CircleButton extends JButton implements MyShape{
 	ImageIcon normalIcon;

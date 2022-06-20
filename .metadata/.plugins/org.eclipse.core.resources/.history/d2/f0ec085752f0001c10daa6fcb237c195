@@ -6,7 +6,7 @@ import java.util.Stack;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import myInterface.MyShape;
+import myShape.MyShape;
 
 public class Rod extends JLabel implements MyShape {
 	
