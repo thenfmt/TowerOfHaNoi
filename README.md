@@ -41,6 +41,8 @@
       - <img src="/images/sys_layout.png" width="400">.
       - Chương trình sử dụng một frame, một contentPane chính và chọn cardlayout làm layout management. trong đó cardlayout chứa các panels Launcher, GamePlay, Hint và Win.
       - Chương trình sử dụng các method launcherOn(), gameOn(), hintOn() và winOn() để chuyển qua lại giữa các panel.
+      - Khi panel launcher được khởi tạo ngay tại constructor của frame và được hiển thị đầu tiên khi chạy chương trình.
+      - Các phương thức gameOn(), hintOn() và winOn() tạo mới panel khi chuyển qua lại giữa các panels.
           ```
             public static void gameOn() {
                 GamePlay gamePlay = new GamePlay();
@@ -63,3 +65,84 @@
                 contentPane.add("Hint", hint);
                 cardLayout.show(contentPane, "Hint");
             }
+            
+            
+   2. Xử lý ảnh
+       - Khái niệm:
+          - JLabel: Lớp JLabel trong Java Swing có thể hiển thị hoặc text, hoặc hình ảnh hoặc cả hai. Các nội dung của Label được gán bởi thiết lập căn chỉnh ngang và dọc trong khu vực hiển thị của nó.
+          - SpriteSheet: Có thể hiểu đơn giản SpriteSheet là một bức ảnh lớn chứa nhiều bức ảnh nhỏ. Chương trình sử dụng SpriteSheet bởi vì có thể tối ưu được thời gian load file từ chương trình. Thay vì tạo nhiều request load file, ta chỉ cần load 1 sheet image và cắt các subimage từ sheet image
+       - Chương trình sử dụng class LoadImage để load ảnh từ file
+          ```
+            public class LoadImage {
+              private BufferedImage image;
+
+              public BufferedImage loadImage(String path) {
+                try {
+                  image = ImageIO.read(getClass().getResource(path));
+                } catch (IOException e) {
+                  e.printStackTrace();
+                }
+              return image;
+              }
+            }
+       - Chương trình sử dụng class Texture để cắt ảnh từ SpriteSheet và quản lí chúng
+            ```
+              public class SpriteSheet {
+                private BufferedImage image;
+
+                public SpriteSheet(BufferedImage image) {
+                  this.image = image;
+                }
+
+                public BufferedImage grabImage(int col, int row, int width, int height) {
+                  BufferedImage img = image.getSubimage((col*width)-width, (row*height)-height, width, height);
+                  return img;
+                }
+              }
+
+              
+              public class Texture {
+
+                  SpriteSheet iconSheet, objectSheet;
+
+                  private BufferedImage iconImage = null;
+                  private BufferedImage objectImage = null;
+
+                  public BufferedImage rodImg[] = new BufferedImage[2];
+                  public BufferedImage diskImg[] = new BufferedImage[3];
+                  public BufferedImage iconImg[] = new BufferedImage[20];
+                  public BufferedImage background;
+
+                  public Texture() {
+                    LoadImage loader = new LoadImage();
+                    objectImage = loader.loadImage("/object.png");
+                    background = loader.loadImage("/background.png");
+                    iconImage = loader.loadImage("/icons.png");
+
+                    iconSheet = new SpriteSheet(iconImage);
+                    objectSheet = new SpriteSheet(objectImage);
+
+                    getTextures();
+                  }
+
+                  private void getTextures() {
+                    //game objects
+                    rodImg[0] = objectSheet.grabImage(1, 1, 32, 32*8);
+                    rodImg[1] = objectSheet.grabImage(2, 1, 32, 32*8);
+
+                    diskImg[0] = objectSheet.grabImage(1, 6, 29*8, 29*2);
+                    diskImg[1] = objectSheet.grabImage(2, 6, 29*8, 29*2);
+                    diskImg[2] = objectSheet.grabImage(3, 6, 29*8, 29*2);
+
+                    //icon
+                    for(int i = 0; i < 16; i++) {
+                      if(i >= 8)
+                        iconImg[i] = iconSheet.grabImage(i+1-8, 2, 50, 50);
+                      else
+                        iconImg[i] = iconSheet.grabImage(i+1, 1, 50, 50);
+                    }
+                  }
+              }
+       - Chương trình sử dụng JLabel và coi ảnh là icon của JLabel 
+          - Vì ảnh không phải là một component nên không thể thêm trực tiếp vào JPanel. Thông qua JLabel ta có thể thêm ảnh vào Jpanel dưới dạng icon của JLabel.
+       - 
