@@ -75,7 +75,9 @@ public class Game extends JPanel {
 		Disk baseDisk = rod[1].peekStack();
 		for(int i = 0; i < height; i++) {
 			disk = new Disk(new ImageIcon(Frame.texture.diskImg[0].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT)));
-			disk.setBounds(baseDisk.getX()+19, baseDisk.getY()-baseDisk.getHeight()+10, baseDisk.getWidth()-38, baseDisk.getHeight()-5);
+//			disk.setBounds(baseDisk.getX()+19, baseDisk.getY()-baseDisk.getHeight()+10, baseDisk.getWidth()-38, baseDisk.getHeight()-5);
+			disk.setLocation(baseDisk.getX()+19, baseDisk.getY()-baseDisk.getHeight()+10);
+			disk.setShape(baseDisk.getWidth()-38, baseDisk.getHeight()-5);
 			add(disk);
 			rod[1].pushStack(disk);
 			baseDisk = disk;
@@ -96,7 +98,9 @@ public class Game extends JPanel {
 	public void initRods() {
 		
 		rod[1] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
-		rod[1].setBounds(270, 200, 32, 300);
+//		rod[1].setBounds(270, 200, 32, 300);
+		rod[1].setShape(32, 300);
+		rod[1].setLocation(270, 200);
 		disk = new Disk(null);
 		disk.setBounds(151, 500, 270, 63);
 		rod[1].pushStack(disk);
@@ -117,7 +121,9 @@ public class Game extends JPanel {
 		
 		
 		rod[2] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
-		rod[2].setBounds(540, 200, 32, 300);
+//		rod[2].setBounds(540, 200, 32, 300);
+		rod[2].setShape(32, 300);
+		rod[2].setLocation(540, 200);
 		disk = new Disk(null);
 		disk.setBounds(421, 500, 270, 63);
 		rod[2].pushStack(disk);
@@ -138,7 +144,9 @@ public class Game extends JPanel {
 		
 		
 		rod[3] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
-		rod[3].setBounds(810, 200, 32, 300);
+//		rod[3].setBounds(810, 200, 32, 300);
+		rod[3].setShape(32, 300);
+		rod[3].setLocation(810, 200);
 		disk = new Disk(null);
 		disk.setBounds(691, 500, 270, 63);
 		rod[3].pushStack(disk);

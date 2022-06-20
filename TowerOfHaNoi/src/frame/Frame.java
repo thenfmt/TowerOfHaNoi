@@ -82,5 +82,4 @@ public class Frame extends JFrame {
 		
 		cardLayout.show(contentPane, "Hint");
 	}
-	
 }

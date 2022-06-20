@@ -27,7 +27,6 @@ public class Texture {
 	}
 	
 	private void getTextures() {
-		
 		//game objects
 		rodImg[0] = objectSheet.grabImage(1, 1, 32, 32*8);
 		rodImg[1] = objectSheet.grabImage(2, 1, 32, 32*8);

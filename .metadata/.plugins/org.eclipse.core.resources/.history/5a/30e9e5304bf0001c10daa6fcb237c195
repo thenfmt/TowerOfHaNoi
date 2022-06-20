@@ -1,0 +1,5 @@
+package objects;
+
+public interface Object {
+	void shape(Object obj);
+}

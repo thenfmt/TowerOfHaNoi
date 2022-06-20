@@ -1,11 +1,12 @@
 package objects;
 
+import java.awt.Shape;
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class Rod extends JLabel {
+public class Rod extends JLabel implements MyShape {
 	
 	private boolean pick = false;
 	public Stack<Disk> stack = new Stack<Disk>();
@@ -32,6 +33,12 @@ public class Rod extends JLabel {
 
 	public void setPick(boolean pick) {
 		this.pick = pick;
+	}
+
+	@Override
+	public Shape setShape(int width, int height) {
+		this.setSize(width, height);
+		return null;
 	}
 
 }

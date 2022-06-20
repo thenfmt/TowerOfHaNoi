@@ -13,8 +13,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import frame.Frame;
+import objects.MyShape;
 
-public class CircleButton extends JButton{
+public class CircleButton extends JButton implements MyShape{
 	ImageIcon normalIcon;
 	ImageIcon hoverIcon;
 	
@@ -61,8 +62,15 @@ public class CircleButton extends JButton{
 	 Shape shape;
 	 public boolean contains(int x, int y) {
 		 if (shape == null || !shape.getBounds().equals(getBounds())) {
-	      shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
+//	      shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
+			 shape = setShape(getWidth(), getHeight());
 	    }
 	    return shape.contains(x, y);
 	 }
+
+
+	public Shape setShape(int width, int height) {
+		Shape s = new Ellipse2D.Float(0, 0, width, height);
+		return s;
+	}
 }
