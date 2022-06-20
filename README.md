@@ -207,6 +207,93 @@
                 }
 
               }
+   4. Custom JButton and JLabel
+      - CircleButton:
+        - Chuyển button từ mặc định (hình chữ nhật) sang hình tròn
+          ```
+		  public class CircleButton extends JButton implements MyShape{
+			ImageIcon normalIcon;
+			ImageIcon hoverIcon;
+
+			public CircleButton(int radius, int iconIndex) {
+				super();
+				setBackground(new Color(106, 139, 158));
+				setFocusable(false);
+				normalIcon = new ImageIcon(Frame.texture.iconImg[iconIndex].getScaledInstance(radius, radius, Image.SCALE_DEFAULT));
+				hoverIcon = new ImageIcon(Frame.texture.iconImg[iconIndex+8].getScaledInstance(radius, radius, Image.SCALE_DEFAULT));
+				setIcon(normalIcon);
+
+				// enlarge the button so that is becomes a circle rather than an oval
+				Dimension size = getPreferredSize();
+				size.width = size.height = Math.max(size.width, size.height);
+
+				//this call cause the JButton not to paint the background. Allows us to paint the background
+				setContentAreaFilled(false);
+				setRolloverEnabled(false);
+				setFocusPainted(false);
+
+				addMouseListener(new MouseAdapter() {
+				 public void mouseEntered(MouseEvent e) {
+					 setIcon(hoverIcon);
+				 }
+				 public void mouseExited(MouseEvent e) {
+					 setIcon(normalIcon);
+				 }
+			      });
+			}
 
 
-        
+			protected void paintComponent(Graphics g) {
+			    if (getModel().isArmed()) {
+			      g.setColor(Color.lightGray);
+			    } else {
+			      g.setColor(getBackground());
+			    }
+			    g.fillOval(0, 0, getSize().width, getSize().height);
+
+			    super.paintComponent(g);
+			}
+
+
+			 Shape shape;
+			 public boolean contains(int x, int y) {
+				 if (shape == null || !shape.getBounds().equals(getBounds())) {
+					 shape = setShape(getWidth(), getHeight());
+			    }
+			    return shape.contains(x, y);
+			 }
+
+
+			public Shape setShape(int width, int height) {
+				Shape s = new Ellipse2D.Float(0, 0, width, height);
+				return s;
+			}
+		  }
+		  
+      - CustomJLabel: Load và cài đặt font
+         ```
+		public class CustomLabel extends JLabel{
+			public CustomLabel(String title, int fontSize) {
+				super(title);
+				Font font = new Font("Arial", Font.BOLD, fontSize);
+
+				try {
+					font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/SP3-Traveling-Typewriter.otf").openStream());
+				} catch (FontFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}   
+				
+				GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				genv.registerFont(font);
+				font = font.deriveFont(Font.BOLD, (float)fontSize);
+
+
+				setFont(font);
+				setForeground(new Color(206, 202, 191));
+			}
+
+		}
