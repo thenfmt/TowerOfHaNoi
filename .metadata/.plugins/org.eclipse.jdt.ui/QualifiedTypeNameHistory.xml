@@ -33,4 +33,5 @@
     <fullyQualifiedTypeName name="javax.management.timer.Timer"/>
     <fullyQualifiedTypeName name="java.util.Timer"/>
     <fullyQualifiedTypeName name="javax.swing.Timer"/>
+    <fullyQualifiedTypeName name="java.awt.Shape"/>
 </qualifiedTypeNameHistroy>

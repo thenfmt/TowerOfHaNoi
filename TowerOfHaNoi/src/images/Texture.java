@@ -3,44 +3,39 @@ package images;
 import java.awt.image.BufferedImage;
 
 public class Texture {
-
-	SpriteSheet iconSheet, objectSheet;
-	
-	private BufferedImage iconImage = null;
-	private BufferedImage objectImage = null;
-	
 	public BufferedImage rodImg[] = new BufferedImage[2];
 	public BufferedImage diskImg[] = new BufferedImage[3];
-	public BufferedImage iconImg[] = new BufferedImage[20];
+	public BufferedImage iconNormal[] = new BufferedImage[10];
+	public BufferedImage iconHover[] = new BufferedImage[10];
 	public BufferedImage background;
 	
+	LoadImage loader = new LoadImage();
+	
 	public Texture() {
-		LoadImage loader = new LoadImage();
-		objectImage = loader.loadImage("/object.png");
-		background = loader.loadImage("/background.png");
-		iconImage = loader.loadImage("/icons.png");
+		background = loader.loadImage("/background/background.png");
 		
-		iconSheet = new SpriteSheet(iconImage);
-		objectSheet = new SpriteSheet(objectImage);
-		
-		getTextures();
+		getObjects();
+		getIcons();
 	}
 	
-	private void getTextures() {
-		//game objects
-		rodImg[0] = objectSheet.grabImage(1, 1, 32, 32*8);
-		rodImg[1] = objectSheet.grabImage(2, 1, 32, 32*8);
+	private void getObjects() {
+		//disks
+		diskImg[0] = loader.loadImage("/disks/disk_normal.png");
+		diskImg[1] = loader.loadImage("/disks/disk_hover.png");
+		diskImg[2] = loader.loadImage("/disks/disk_clicked.png");
 		
-		diskImg[0] = objectSheet.grabImage(1, 6, 29*8, 29*2);
-		diskImg[1] = objectSheet.grabImage(2, 6, 29*8, 29*2);
-		diskImg[2] = objectSheet.grabImage(3, 6, 29*8, 29*2);
-		
-		//icon
-		for(int i = 0; i < 16; i++) {
-			if(i >= 8)
-				iconImg[i] = iconSheet.grabImage(i+1-8, 2, 50, 50);
-			else
-				iconImg[i] = iconSheet.grabImage(i+1, 1, 50, 50);
+		//rods
+		rodImg[0] = loader.loadImage("/rods/rod_normal.png");
+		rodImg[1] = loader.loadImage("/rods/rod_hover.png");
+	}
+	
+	private void getIcons() {
+		for(int i = 0; i < 9; i++) {
+			//normal icon
+			iconNormal[i] = loader.loadImage("/icons/normal/icon (" + (i+1) + ").png");
+			
+			//hover icon
+			iconHover[i] = loader.loadImage("/icons/hover/icon (" + (i+1) + ").png");
 		}
 	}
 }

@@ -14,7 +14,7 @@ public class CustomLabel extends JLabel{
 		Font font = new Font("Arial", Font.BOLD, fontSize);
 		
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/SP3-Traveling-Typewriter.otf").openStream());
+			font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/font/SP3-Traveling-Typewriter.otf").openStream());
 		} catch (FontFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -13,8 +13,21 @@ public class Rod extends JLabel implements MyShape {
 	private boolean pick = false;
 	public Stack<Disk> stack = new Stack<Disk>();
 	
-	public Rod(ImageIcon img) {
-		super(img);
+	private ImageIcon iconNormal;
+	private ImageIcon iconHover;
+	
+	public Rod(ImageIcon iconNormal, ImageIcon iconHover) {
+		super(iconNormal);
+		this.iconNormal = iconNormal;
+		this.iconHover = iconHover;
+	}
+	
+	public void setIconNormal() {
+		setIcon(iconNormal);
+	}
+	
+	public void setIconHover() {
+		setIcon(iconHover);
 	}
 	
 	public void pushStack(Disk disk) {

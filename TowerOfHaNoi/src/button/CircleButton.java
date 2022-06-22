@@ -16,16 +16,16 @@ import frame.Frame;
 import myInterface.MyShape;
 
 public class CircleButton extends JButton implements MyShape{
-	ImageIcon normalIcon;
-	ImageIcon hoverIcon;
+	ImageIcon iconNormal;
+	ImageIcon iconHover;
 	
 	public CircleButton(int radius, int iconIndex) {
 		super();
 		setBackground(new Color(106, 139, 158));
 		setFocusable(false);
-		normalIcon = new ImageIcon(Frame.texture.iconImg[iconIndex].getScaledInstance(radius, radius, Image.SCALE_DEFAULT));
-		hoverIcon = new ImageIcon(Frame.texture.iconImg[iconIndex+8].getScaledInstance(radius, radius, Image.SCALE_DEFAULT));
-		setIcon(normalIcon);
+		iconNormal = new ImageIcon(Frame.texture.iconNormal[iconIndex].getScaledInstance(radius, radius, Image.SCALE_DEFAULT));
+		iconHover = new ImageIcon(Frame.texture.iconHover[iconIndex].getScaledInstance(radius, radius, Image.SCALE_DEFAULT));
+		setIcon(iconNormal);
 		
 		// enlarge the button so that is becomes a circle rather than an oval
 		Dimension size = getPreferredSize();
@@ -38,14 +38,49 @@ public class CircleButton extends JButton implements MyShape{
 		
 		addMouseListener(new MouseAdapter() {
 	         public void mouseEntered(MouseEvent e) {
-	        	 setIcon(hoverIcon);
+	        	 setIconHover();
 	         }
 	         public void mouseExited(MouseEvent e) {
-	        	 setIcon(normalIcon);
+	        	 setIconNormal();
 	         }
-	      });
+	    });
 	}
 	
+	public CircleButton(ImageIcon iconNormal,  ImageIcon iconHover) {
+		super();
+		this.iconNormal = iconNormal;
+		this.iconHover = iconHover;
+		
+		setBackground(new Color(106, 139, 158));
+		setFocusable(false);
+		setIcon(iconNormal);
+		
+		// enlarge the button so that is becomes a circle rather than an oval
+		Dimension size = getPreferredSize();
+		size.width = size.height = Math.max(size.width, size.height);
+		
+		//this call cause the JButton not to paint the background. Allows us to paint the background
+		setContentAreaFilled(false);
+		setRolloverEnabled(false);
+		setFocusPainted(false);
+		
+		addMouseListener(new MouseAdapter() {
+	         public void mouseEntered(MouseEvent e) {
+	        	 setIconHover();
+	         }
+	         public void mouseExited(MouseEvent e) {
+	        	 setIconNormal();
+	         }
+	    });
+	}
+	
+	public void setIconNormal() {
+		setIcon(iconNormal);
+	}
+	
+	public void setIconHover() {
+		setIcon(iconHover);
+	}
 	
 	protected void paintComponent(Graphics g) {
 	    if (getModel().isArmed()) {
@@ -62,7 +97,6 @@ public class CircleButton extends JButton implements MyShape{
 	 Shape shape;
 	 public boolean contains(int x, int y) {
 		 if (shape == null || !shape.getBounds().equals(getBounds())) {
-//	      shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
 			 shape = setShape(getWidth(), getHeight());
 	    }
 	    return shape.contains(x, y);
@@ -72,5 +106,21 @@ public class CircleButton extends JButton implements MyShape{
 	public Shape setShape(int width, int height) {
 		Shape s = new Ellipse2D.Float(0, 0, width, height);
 		return s;
+	}
+
+	public ImageIcon getIconNormal() {
+		return iconNormal;
+	}
+
+	public void setIconNormal(ImageIcon iconNormal) {
+		this.iconNormal = iconNormal;
+	}
+
+	public ImageIcon getIconHover() {
+		return iconHover;
+	}
+
+	public void setIconHover(ImageIcon iconHover) {
+		this.iconHover = iconHover;
 	}
 }

@@ -13,6 +13,7 @@ import javax.swing.Timer;
 
 import button.CircleButton;
 import frame.Frame;
+import images.Texture;
 import label.CustomLabel;
 import objects.Disk;
 import objects.Rod;
@@ -29,16 +30,17 @@ public class Game extends JPanel {
 	private Rod rod[] = new Rod[4];
 	private Disk disk;
 	protected CustomLabel lblStepCounter;
-	private int step = 0;
+	public static int step = 0;
 	protected JLabel background;
 	CustomLabel lblNoti;
+	
 	
 	public Game() {
 		setLayout(null);
 		setBounds(0, 0, 1080, 720);
 		
 		//components
-		CircleButton btnLauncher = new CircleButton(50, 4);
+		CircleButton btnLauncher = new CircleButton(35, 5);
 		btnLauncher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Frame.launcherOn();
@@ -74,12 +76,15 @@ public class Game extends JPanel {
 		// disk
 		Disk baseDisk = rod[1].peekStack();
 		for(int i = 0; i < height; i++) {
-			disk = new Disk(new ImageIcon(Frame.texture.diskImg[0].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT)));
-//			disk.setBounds(baseDisk.getX()+19, baseDisk.getY()-baseDisk.getHeight()+10, baseDisk.getWidth()-38, baseDisk.getHeight()-5);
+			disk = new Disk(new ImageIcon(Frame.texture.diskImg[0].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT)),
+							new ImageIcon(Frame.texture.diskImg[1].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT)),
+							new ImageIcon(Frame.texture.diskImg[2].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT)));
+			
 			disk.setLocation(baseDisk.getX()+19, baseDisk.getY()-baseDisk.getHeight()+10);
 			disk.setShape(baseDisk.getWidth()-38, baseDisk.getHeight()-5);
 			add(disk);
 			rod[1].pushStack(disk);
+			
 			baseDisk = disk;
 		}
 		
@@ -97,11 +102,14 @@ public class Game extends JPanel {
 	
 	public void initRods() {
 		
-		rod[1] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
-//		rod[1].setBounds(270, 200, 32, 300);
+		rod[1] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)),
+						 new ImageIcon(Frame.texture.rodImg[1].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
+
 		rod[1].setShape(32, 300);
 		rod[1].setLocation(270, 200);
-		disk = new Disk(null);
+		disk = new Disk(null, null, null);
+		disk.setEnabled(false);
+		disk.setBasekDisk(true);
 		disk.setBounds(151, 500, 270, 63);
 		rod[1].pushStack(disk);
 		rod[1].addMouseListener(new MouseAdapter() {
@@ -116,15 +124,28 @@ public class Game extends JPanel {
 	            	}
 	            }
 	        }
+	        public void mouseEntered(MouseEvent e) {
+	        	 rod[1].setIconHover();
+	        	 if(!rod[1].isPick())
+	        		 rod[1].peekStack().setIconHover();
+	        }
+	        public void mouseExited(MouseEvent e) {
+	        	 rod[1].setIconNormal();
+	        	 if(!rod[1].isPick())
+	        		 rod[1].peekStack().setIconNormal();
+	        }
 	    });
 		
 		
 		
-		rod[2] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
-//		rod[2].setBounds(540, 200, 32, 300);
+		rod[2] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)),
+				 		 new ImageIcon(Frame.texture.rodImg[1].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
+		
 		rod[2].setShape(32, 300);
 		rod[2].setLocation(540, 200);
-		disk = new Disk(null);
+		disk = new Disk(null, null, null);
+		disk.setEnabled(false);
+		disk.setBasekDisk(true);
 		disk.setBounds(421, 500, 270, 63);
 		rod[2].pushStack(disk);
 		rod[2].addMouseListener(new MouseAdapter() {
@@ -139,22 +160,32 @@ public class Game extends JPanel {
 	            	}
 	            }
 	        }
+	        public void mouseEntered(MouseEvent e) {
+	        	 rod[2].setIconHover();
+	        	 if(!rod[2].isPick())
+	        	 	rod[2].peekStack().setIconHover();
+	        }
+	        public void mouseExited(MouseEvent e) {
+	        	 rod[2].setIconNormal();
+	        	 if(!rod[2].isPick())
+		        	 rod[2].peekStack().setIconNormal();
+	        }
 	    });
 		
 		
 		
-		rod[3] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
-//		rod[3].setBounds(810, 200, 32, 300);
+		rod[3] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)),
+				 		 new ImageIcon(Frame.texture.rodImg[1].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
+
 		rod[3].setShape(32, 300);
 		rod[3].setLocation(810, 200);
-		disk = new Disk(null);
+		disk = new Disk(null, null, null);
+		disk.setEnabled(false);
+		disk.setBasekDisk(true);
 		disk.setBounds(691, 500, 270, 63);
 		rod[3].pushStack(disk);
 		rod[3].addMouseListener(new MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
-	        	if(isWin())
-	        		Frame.winOn();
-	        	
 	            if(e.getClickCount() > 0 && isAllowPick())   {
 	            	if(isRodPick()==false) {
 	            		setRodPick(3);
@@ -165,12 +196,22 @@ public class Game extends JPanel {
 	            	}
 	            }
 	        }
+	        public void mouseEntered(MouseEvent e) {
+	        	 rod[3].setIconHover();
+	        	 if(!rod[3].isPick())
+		        	 rod[3].peekStack().setIconHover();
+	        }
+	        public void mouseExited(MouseEvent e) {
+	        	 rod[3].setIconNormal();
+	        	 if(!rod[3].isPick())
+		        	 rod[3].peekStack().setIconNormal();
+	        }
 	    });
 		
 	}
 	
 	public boolean isWin() {
-		if(rod[3].stack.size()==GamePlay.height)
+		if(rod[1].peekStack().isBasekDisk() && rod[2].peekStack().isBasekDisk())
 			return true;
 		
 		return false;
@@ -225,6 +266,9 @@ public class Game extends JPanel {
 			disk.setBounds(baseDisk.getX()+(baseDisk.getWidth()-disk.getWidth())/2, baseDisk.getY()-disk.getHeight()+5, disk.getWidth(), disk.getHeight());
 			disk.setIcon(new ImageIcon(Frame.texture.diskImg[0].getScaledInstance(disk.getWidth(), disk.getHeight(), Image.SCALE_DEFAULT)));
 			rod[to].pushStack(disk);
+			
+			if(isWin())
+        		Frame.winOn();
 		}
 	}
 

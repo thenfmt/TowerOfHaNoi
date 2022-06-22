@@ -18,7 +18,7 @@ public class Launcher extends JPanel {
 		setLayout(null);
 		setBounds(0, 0, 1080, 720);
 		
-		CircleButton btnPlay = new CircleButton(50, 5);
+		CircleButton btnPlay = new CircleButton(50, 3);
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Frame.gameOn();
@@ -31,27 +31,27 @@ public class Launcher extends JPanel {
 		lblHeight.setBounds(497, 443, 110, 50);
 		add(lblHeight);
 		
-		CircleButton btnUp = new CircleButton(25, 7);
-		btnUp.addActionListener(new ActionListener() {
+		CircleButton btnAdd = new CircleButton(25, 0);
+		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Game.height = Math.min(Game.height+1, 5);
 				lblHeight.setText("Height: " + Game.height);
 			}
 		});
-		btnUp.setBounds(597, 443, 50, 50);
-		add(btnUp);
+		btnAdd.setBounds(597, 443, 50, 50);
+		add(btnAdd);
 		
-		CircleButton btnDown = new CircleButton(25, 3);
-		btnDown.addActionListener(new ActionListener() {
+		CircleButton btnMinus = new CircleButton(25, 6);
+		btnMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Game.height = Math.max(Game.height-1, 3);
 				lblHeight.setText("Height: " + Game.height);
 			}
 		});
-		btnDown.setBounds(437, 443, 50, 50);
-		add(btnDown);
+		btnMinus.setBounds(437, 443, 50, 50);
+		add(btnMinus);
 		
-		CircleButton btnExit = new CircleButton(50, 1);
+		CircleButton btnExit = new CircleButton(50, 2);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);

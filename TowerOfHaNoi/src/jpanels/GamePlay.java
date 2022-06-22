@@ -13,7 +13,7 @@ public class GamePlay extends Game {
 		setAllowMove(true);
 		setAllowPick(true);
 		
-		CircleButton btnHint = new CircleButton(30, 2);
+		CircleButton btnHint = new CircleButton(30, 4);
 		btnHint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Frame.HintOn();
