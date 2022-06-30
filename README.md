@@ -127,9 +127,11 @@
 					iconHover[i] = loader.loadImage("/icons/hover/icon (" + (i+1) + ").png");
 				}
 			}
-		}
+		 }
+		
        - Chương trình sử dụng JLabel và coi ảnh là icon của JLabel 
           - Vì ảnh không phải là một component nên không thể thêm trực tiếp vào JPanel. Thông qua JLabel ta có thể thêm ảnh vào Jpanel dưới dạng icon của JLabel.
+          
    3. Các đối tượng
        - Chương trình có hai đối tượng chính Rod và Disk. Cả hai đều được kế thừa từ JLabel để thêm ảnh dưới dạng icon như đã nói ở trên và implements interface MyShape.
          - Interface MyShape: Có duy nhất phương thức setShape() để định hình cho object
@@ -279,3 +281,161 @@
 			}
 
 		}
+		
+            
+   5. Xử lí logic trong game
+      - Các Panel:
+        - Game: xử lí các hoạt động của game, những đặc tính chung của gamePlay, hint
+        - GamePlay: được kế thừa từ panel Game, được phép di chuyển các đĩa qua lại 
+        - Hint: được kế thừa từ panel Game, không được phép di chuyển các đĩa qua lại, nhưng có thể xem những gợi ý của chương trình từ đây.
+      - Panel Game: 
+        - Tại constructor của Game sẽ khởi tạo những button và những label cho giao diện. Constructor cũng gọi phương thức khởi tạo những objects (rod, disk)
+        - Số lượng disk được khởi tạo nằm trong khoảng [3;5] được người dùng lựa chọn từ giao diện Launcher thông qua biến "height" kiểu "public static int". Vì là biến static nên biến height được lưu tại heap memory và có thể chỉnh sửa từ class khác.
+        	```
+			public Game() {
+				setLayout(null);
+				setBounds(0, 0, 1080, 720);
+				
+				//components
+				CircleButton btnLauncher = new CircleButton(35, 5);
+				btnLauncher.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Frame.launcherOn();
+					}
+				});
+				btnLauncher.setBounds(912, 11, 50, 50);
+				add(btnLauncher);
+				
+				lblStepCounter = new CustomLabel("Step: 0", 20);
+				lblStepCounter.setBounds(339, 31, 133, 20);
+				add(lblStepCounter);
+				
+				CustomLabel lblStepExpect = new CustomLabel("Expect Step: " + (int)(Math.pow(2, height)-1), 20);
+				lblStepExpect.setBounds(535, 25, 214, 26);
+				add(lblStepExpect);
+				
+				lblNoti = new CustomLabel("Not legal!", 20);
+				lblNoti.setBounds(926, 103, 133, 35);
+				lblNoti.setVisible(false);
+				add(lblNoti);
+				
+				background = new JLabel(new ImageIcon(Frame.texture.background));
+				background.setBounds(getBounds());
+				initObject(height);
+			}
+
+        - Tại method initObject(height) gọi phương thức initRods() trước khi khởi tạo các disks
+        	```
+			public void initObject(int height) {
+				// khởi tạo rod nhưng chưa thêm vào panel
+				initRods();
+
+				// khởi tạo các đĩa rồi thêm vào panel
+				// ban đầu tạo mội đĩa base ảo (có shape và position nhưng không thể nhìn thấy và tương tác) để làm đĩa gốc
+				// các đĩa sau base sẽ giảm đi chiều width-38 và height-5 để tạo sự cân đối cho ảnh.
+				// lí do chọn số 38 và 5: qua các phép thử thấy cân đối nên giữ nguyên
+				Disk baseDisk = rod[1].peekStack();
+				for(int i = 0; i < height; i++) {
+					ImageIcon diskIconNormal = new ImageIcon(Frame.texture.diskImg[0].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT));
+					ImageIcon diskIconHover = new ImageIcon(Frame.texture.diskImg[1].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT));
+					ImageIcon diskIconClicked = new ImageIcon(Frame.texture.diskImg[2].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT));
+
+					disk = new Disk(diskIconNormal, diskIconHover, diskIconClicked);
+
+					disk.setLocation(baseDisk.getX()+19, baseDisk.getY()-baseDisk.getHeight()+10);
+					disk.setShape(baseDisk.getWidth()-38, baseDisk.getHeight()-5);
+					add(disk);
+					rod[1].pushStack(disk);
+
+					baseDisk = disk;
+				}
+
+				// thêm các rod vào panel: nếu thêm trước lúc khởi tạo đĩa thì sẽ đè lên đĩa làm mất thẩm mỹ
+				add(rod[1]);
+				add(rod[2]);
+				add(rod[3]);
+			}
+
+        - Tại method initRods() khởi tạo các baseDisk không thể tương tác push vào stack chứa các disk.
+        - Thêm những mouseEvent khi entered, exited hoặc clicked sẽ có những effect 
+        - Khi click chuột: nếu chưa có rod nào đó được pick thì sẽ setPick(true), nếu đã có rod được pick trước đó thì sẽ thực hiện di chuyển đĩa ở top của rod đã pick trước đó sang top của rod vừa mới được click qua hàm moveDisk(idFrom, idTo).
+        	```
+			rod[1] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)),
+						 new ImageIcon(Frame.texture.rodImg[1].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
+
+			rod[1].setShape(32, 300);
+			rod[1].setLocation(270, 200);
+			disk = new Disk(null, null, null);
+			disk.setEnabled(false);
+			disk.setBasekDisk(true);
+			disk.setBounds(151, 500, 270, 63);
+			rod[1].pushStack(disk);
+			rod[1].addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+			    if(e.getClickCount() > 0 && isAllowPick()){
+				if(isRodPick()==false) {
+					setRodPick(1); // pick rod with id = 1
+				} else if(rod[1].isPick()==true){
+					unPickRod(1); // unpick rod with id = 1
+				} else {
+					moveDisk(getRodPick(), 1);
+				}
+			    }
+			}
+			public void mouseEntered(MouseEvent e) {
+				 rod[1].setIconHover();
+				 if(!rod[1].isPick())
+					 rod[1].peekStack().setIconHover();
+			}
+			public void mouseExited(MouseEvent e) {
+				 rod[1].setIconNormal();
+				 if(!rod[1].isPick())
+					 rod[1].peekStack().setIconNormal();
+			}
+		    });
+
+
+
+        - Khi gọi phương thức moveDisk(from, to), sẽ kiểm tra xem di chuyển có hợp lệ hay không, thông qua phương thức isMoveLegal(from, to).
+        - Nếu di chuyển hợp lệ sẽ thực hiện pop disk ở top stack của rod "from" và push vào stack của rod "to"
+        - Sau khi thực hiện các bước di chuyển sẽ kiểm tra game đã kết thúc hay chưa thông qua phương thức isWin()
+        - Phương thức isWin() kiểm tra bằng cách kiểm tra xem những disk có thể di chuyển ở các rod1 và rod2. nếu không còn đĩa nào có thể di chuyển có nghĩa tất các các disk đã ở vị trí cột thứ 3.
+        	```	
+			public boolean isMoveLegal(int from, int to) {
+				Disk upper = rod[from].peekStack();
+				Disk below = rod[to].peekStack();
+				if(upper.getWidth()<below.getWidth() && upper.getHeight()<below.getHeight())
+					return true;
+				else
+					notiNotLegal();
+
+				return false;
+			}
+			
+			public boolean isWin() {
+				if(rod[1].peekStack().isBasekDisk() && rod[2].peekStack().isBasekDisk())
+					return true;
+
+				return false;
+			}
+
+			public void moveDisk(int from, int to) {
+				if(isMoveLegal(from, to) && isAllowMove()) {
+					step++;
+					lblStepCounter.setText("Step: " + step);
+					rod[from].setPick(false);
+					Disk disk = rod[from].popStack();
+					Disk baseDisk = rod[to].stack.peek();
+					disk.setBounds(baseDisk.getX()+(baseDisk.getWidth()-disk.getWidth())/2, baseDisk.getY()-disk.getHeight()+5, disk.getWidth(), disk.getHeight());
+					disk.setIcon(new ImageIcon(Frame.texture.diskImg[0].getScaledInstance(disk.getWidth(), disk.getHeight(), Image.SCALE_DEFAULT)));
+					rod[to].pushStack(disk);
+
+					if(isWin())
+					Frame.winOn();
+				}
+			}
+
+
+			public boolean isAllowMove() {
+				return allowMove;
+			}
