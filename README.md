@@ -70,7 +70,6 @@
    2. Xử lý ảnh
        - Khái niệm:
           - JLabel: Lớp JLabel trong Java Swing có thể hiển thị hoặc text, hoặc hình ảnh hoặc cả hai. Các nội dung của Label được gán bởi thiết lập căn chỉnh ngang và dọc trong khu vực hiển thị của nó.
-          - SpriteSheet: Có thể hiểu đơn giản SpriteSheet là một bức ảnh lớn chứa nhiều bức ảnh nhỏ. Chương trình sử dụng SpriteSheet bởi vì có thể tối ưu được thời gian load file từ chương trình. Thay vì tạo nhiều request load file, ta chỉ cần load 1 sheet image và cắt các subimage từ sheet image
        - Chương trình sử dụng class LoadImage để load ảnh từ file
           - LoadImage
             ```
@@ -86,66 +85,49 @@
                 return image;
                 }
               }
-       - Chương trình sử dụng class Texture để cắt ảnh từ SpriteSheet và quản lí chúng
-          - SpriteSheet:
+       - Chương trình sử dụng class Texture để load ảnh từ file và quản lí chúng 
+          
             ```
-              public class SpriteSheet {
-                private BufferedImage image;
+	    	public class Texture {
+			public BufferedImage rodImg[] = new BufferedImage[2];
+			public BufferedImage diskImg[] = new BufferedImage[3];
+			public BufferedImage iconNormal[] = new BufferedImage[10];
+			public BufferedImage iconHover[] = new BufferedImage[10];
+			public BufferedImage background;
 
-                public SpriteSheet(BufferedImage image) {
-                  this.image = image;
-                }
+			LoadImage loader = new LoadImage();
+			/*
+			 * load hình ảnh thông qua class LoadImage và lưu vào những mảng riêng biệt
+			 * normal là hình hình ảnh ở trạng thái bình thường. Khi ta di chuyển chuột hoặc click vào object thì sẽ chuyển sang hover icon hoặc clicked icon
+			 */
+			public Texture() {
+				background = loader.loadImage("/background/background.png");
 
-                public BufferedImage grabImage(int col, int row, int width, int height) {
-                  BufferedImage img = image.getSubimage((col*width)-width, (row*height)-height, width, height);
-                  return img;
-                }
-              }
+				getObjects();
+				getIcons();
+			}
 
-          - Texture:
-            ```
-              public class Texture {
+			private void getObjects() {
+				//disks
+				diskImg[0] = loader.loadImage("/disks/disk_normal.png");
+				diskImg[1] = loader.loadImage("/disks/disk_hover.png");
+				diskImg[2] = loader.loadImage("/disks/disk_clicked.png");
 
-                  SpriteSheet iconSheet, objectSheet;
+				//rods
+				rodImg[0] = loader.loadImage("/rods/rod_normal.png");
+				rodImg[1] = loader.loadImage("/rods/rod_hover.png");
+			}
 
-                  private BufferedImage iconImage = null;
-                  private BufferedImage objectImage = null;
+			private void getIcons() {
+				for(int i = 0; i < 9; i++) {
+					//normal icon
+					iconNormal[i] = loader.loadImage("/icons/normal/icon (" + (i+1) + ").png");
 
-                  public BufferedImage rodImg[] = new BufferedImage[2];
-                  public BufferedImage diskImg[] = new BufferedImage[3];
-                  public BufferedImage iconImg[] = new BufferedImage[20];
-                  public BufferedImage background;
-
-                  public Texture() {
-                    LoadImage loader = new LoadImage();
-                    objectImage = loader.loadImage("/object.png");
-                    background = loader.loadImage("/background.png");
-                    iconImage = loader.loadImage("/icons.png");
-
-                    iconSheet = new SpriteSheet(iconImage);
-                    objectSheet = new SpriteSheet(objectImage);
-
-                    getTextures();
-                  }
-
-                  private void getTextures() {
-                    //game objects
-                    rodImg[0] = objectSheet.grabImage(1, 1, 32, 32*8);
-                    rodImg[1] = objectSheet.grabImage(2, 1, 32, 32*8);
-
-                    diskImg[0] = objectSheet.grabImage(1, 6, 29*8, 29*2);
-                    diskImg[1] = objectSheet.grabImage(2, 6, 29*8, 29*2);
-                    diskImg[2] = objectSheet.grabImage(3, 6, 29*8, 29*2);
-
-                    //icon
-                    for(int i = 0; i < 16; i++) {
-                      if(i >= 8)
-                        iconImg[i] = iconSheet.grabImage(i+1-8, 2, 50, 50);
-                      else
-                        iconImg[i] = iconSheet.grabImage(i+1, 1, 50, 50);
-                    }
-                  }
-              }
+					//hover icon
+					iconHover[i] = loader.loadImage("/icons/hover/icon (" + (i+1) + ").png");
+				}
+			}
+		}
        - Chương trình sử dụng JLabel và coi ảnh là icon của JLabel 
           - Vì ảnh không phải là một component nên không thể thêm trực tiếp vào JPanel. Thông qua JLabel ta có thể thêm ảnh vào Jpanel dưới dạng icon của JLabel.
    3. Các đối tượng
@@ -209,7 +191,7 @@
               }
    4. Custom JButton and JLabel
       - CircleButton:
-        - Chuyển button từ mặc định (hình chữ nhật) sang hình tròn
+        - Những button được chuyển từ mặc định (hình chữ nhật) sang hình tròn
           ```
 		  public class CircleButton extends JButton implements MyShape{
 			ImageIcon normalIcon;
@@ -270,7 +252,7 @@
 			}
 		  }
 		  
-      - CustomJLabel: Load và cài đặt font
+      - CustomJLabel: load và cài đặt font chữ, font size chung cho các JLabel
          ```
 		public class CustomLabel extends JLabel{
 			public CustomLabel(String title, int fontSize) {
