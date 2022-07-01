@@ -439,3 +439,88 @@
 			public boolean isAllowMove() {
 				return allowMove;
 			}
+
+
+      - Panel GamePlay:
+      	- Game play được kế thừa từ panel Game
+	- GamePlay được phép chọn và di chuyển các đĩa qua lại.
+			```
+			public class GamePlay extends Game {
+
+				public GamePlay() {
+					super();
+					setAllowMove(true);
+					setAllowPick(true);
+
+					CircleButton btnHint = new CircleButton(30, 4);
+					btnHint.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							Frame.HintOn();
+						}
+					});
+					btnHint.setBounds(110, 25, 30, 30);
+					add(btnHint);
+
+					add(background);
+				}
+			}
+
+      - Panel Hint: 
+        - Không giống như GamePlay, hint không thể chọn các object hay di chuyển các disk qua lại
+      	- Hint được kế thừa từ panel Game
+      	- List step lưu những bước di chuyển để qua màn
+			```
+			private List<int[]> step = new ArrayList<int[]>();
+			public void solution() {
+				recusive(GamePlay.height, 1, 3, 2);
+			}
+
+			public void recusive(int height, int A, int C, int B) {
+				if(height==0)
+					return;
+				recusive(height-1, A, B, C);
+				int arr[] = {A, C};
+				step.add(arr);
+				recusive(height-1, B, C, A);
+			}
+			
+        - Không giống như 
+        - Thông qua những phương thức moveNext(), moveBack() để xem từng bước di chuyển mà chương trình đề xuất.
+        - Chương trình có hỗ trợ phương thức autoRun() theo trình tự từng bước với delay=1s cho mỗi bước di chuyển
+			```
+			public void moveNext() {
+				index = Math.min(step.size(), index);
+				if(index >= step.size()) {
+					notiNotLegal();
+					return;
+				}
+
+				int from = step.get(index)[0];
+				int to = step.get(index)[1];
+				moveDisk(from, to);
+				index++;
+			}
+
+			public void moveBack() {
+				index--;
+				index = Math.max(0, index);
+
+				int from = step.get(index)[1];
+				int to = step.get(index)[0];
+				moveDisk(from, to);
+			}
+
+
+			public void autoRun() {
+				timer = new Timer(1000, new ActionListener() {
+					  @Override
+					  public void actionPerformed(ActionEvent arg0) {
+						if(isPause()==false)
+							moveNext();
+						else 
+							timer.stop();
+					  }
+					});
+				timer.setRepeats(true); 
+				timer.start(); 
+			}
