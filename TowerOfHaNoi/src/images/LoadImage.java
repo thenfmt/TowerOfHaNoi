@@ -8,6 +8,10 @@ import javax.imageio.ImageIO;
 public class LoadImage {
 	private BufferedImage image;
 	
+	
+	/*
+	 * LoadImage để load images từ folder res
+	 */
 	public BufferedImage loadImage(String path) {
 		try {
 			image = ImageIO.read(getClass().getResource(path));

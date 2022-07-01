@@ -54,10 +54,12 @@ public class Hint extends Game {
 		btnPlay.setBounds(110, 11, 50, 50);
 		add(btnPlay);
 		
-		ImageIcon playNormal = new ImageIcon(Frame.texture.iconNormal[8].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-		ImageIcon playHover = new ImageIcon(Frame.texture.iconHover[8].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-		ImageIcon pauseNormal = new ImageIcon(Frame.texture.iconNormal[3].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-		ImageIcon pauseHover = new ImageIcon(Frame.texture.iconHover[3].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		
+		
+		ImageIcon playNormal = new ImageIcon(Frame.texture.iconNormal[3].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon playHover = new ImageIcon(Frame.texture.iconHover[3].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon pauseNormal = new ImageIcon(Frame.texture.iconNormal[8].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+		ImageIcon pauseHover = new ImageIcon(Frame.texture.iconHover[8].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		
 		CircleButton btnPause = new CircleButton(playNormal, playHover);
 		btnPause.setBounds(538, 550, 50, 50);
@@ -65,12 +67,13 @@ public class Hint extends Game {
 			public void actionPerformed(ActionEvent e) {
 				if(isPause()==false) {
 					setPause(true);
-					btnPause.setIconNormal(pauseNormal);
-					btnPause.setIconHover(pauseHover);
-				}else {
-					setPause(false);
 					btnPause.setIconNormal(playNormal);
 					btnPause.setIconHover(playHover);
+				}else {
+					setPause(false);
+					btnPause.setIconNormal(pauseNormal);
+					btnPause.setIconHover(pauseHover);
+					
 					timer.start();
 				}
 					

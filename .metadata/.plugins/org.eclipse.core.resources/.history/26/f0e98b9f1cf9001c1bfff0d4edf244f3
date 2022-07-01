@@ -34,10 +34,7 @@ public class Game extends JPanel {
 	protected JLabel background;
 	CustomLabel lblNoti;
 	
-	/*
-	 * phương thức constructor khởi tạo những buttons và những label quan trọng
-	 * constructor gọi đến phương thức initObject() khởi tạo những rod and disk 
-	 */
+	
 	public Game() {
 		setLayout(null);
 		setBounds(0, 0, 1080, 720);
@@ -104,10 +101,7 @@ public class Game extends JPanel {
 	
 	
 	public void initRods() {
-		/*
-		 * khởi tạo cột và thêm một base disk không thể tương tác.
-		 * thêm những mouseListener vào những
-		 */
+		
 		rod[1] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)),
 						 new ImageIcon(Frame.texture.rodImg[1].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
 

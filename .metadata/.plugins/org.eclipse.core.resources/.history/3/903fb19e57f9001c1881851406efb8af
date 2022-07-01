@@ -54,6 +54,8 @@ public class Hint extends Game {
 		btnPlay.setBounds(110, 11, 50, 50);
 		add(btnPlay);
 		
+		
+		
 		ImageIcon playNormal = new ImageIcon(Frame.texture.iconNormal[8].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		ImageIcon playHover = new ImageIcon(Frame.texture.iconHover[8].getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 		ImageIcon pauseNormal = new ImageIcon(Frame.texture.iconNormal[3].getScaledInstance(50, 50, Image.SCALE_DEFAULT));

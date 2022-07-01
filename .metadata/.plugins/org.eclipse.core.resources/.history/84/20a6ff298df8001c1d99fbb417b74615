@@ -34,10 +34,7 @@ public class Game extends JPanel {
 	protected JLabel background;
 	CustomLabel lblNoti;
 	
-	/*
-	 * phương thức constructor khởi tạo những buttons và những label quan trọng
-	 * constructor gọi đến phương thức initObject() khởi tạo những rod and disk 
-	 */
+	
 	public Game() {
 		setLayout(null);
 		setBounds(0, 0, 1080, 720);
@@ -73,18 +70,15 @@ public class Game extends JPanel {
 	}
 	
 	public void initObject(int height) {
-		// khởi tạo rod nhưng chưa thêm vào panel
+		// rods
 		initRods();
 				
-		// khởi tạo các đĩa rồi thêm vào panel
-		// ban đầu tạo mội đĩa base ảo (có shape và position nhưng không thể nhìn thấy và tương tác) để làm đĩa gốc
-		// các đĩa sau base sẽ giảm đi chiều width-38 và height-5 để tạo sự cân đối cho ảnh.
-		// lí do chọn số 38 và 5: qua các phép thử thấy cân đối nên giữ nguyên
+		// disk
 		Disk baseDisk = rod[1].peekStack();
 		for(int i = 0; i < height; i++) {
 			ImageIcon diskIconNormal = new ImageIcon(Frame.texture.diskImg[0].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT));
-			ImageIcon diskIconHover = new ImageIcon(Frame.texture.diskImg[1].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT));
-			ImageIcon diskIconClicked = new ImageIcon(Frame.texture.diskImg[2].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT));
+			ImageIcon diskIconHover =new ImageIcon(Frame.texture.diskImg[1].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT));
+			ImageIcon diskIconClicked =new ImageIcon(Frame.texture.diskImg[2].getScaledInstance(baseDisk.getWidth()-38, baseDisk.getHeight()-5, Image.SCALE_DEFAULT));
 			
 			disk = new Disk(diskIconNormal, diskIconHover, diskIconClicked);
 			
@@ -96,18 +90,20 @@ public class Game extends JPanel {
 			baseDisk = disk;
 		}
 		
-		// thêm các rod vào panel: nếu thêm trước lúc khởi tạo đĩa thì sẽ đè lên đĩa làm mất thẩm mỹ
+		// add to panel
 		add(rod[1]);
 		add(rod[2]);
 		add(rod[3]);
 	}
 	
+	public void deleteObject() {
+		for(int i = 0; i < rod.length; i++) {
+			rod[i] = null;
+		}
+	}
 	
 	public void initRods() {
-		/*
-		 * khởi tạo cột và thêm một base disk không thể tương tác.
-		 * thêm những mouseListener vào những
-		 */
+		
 		rod[1] = new Rod(new ImageIcon(Frame.texture.rodImg[0].getScaledInstance(32, 300, Image.SCALE_DEFAULT)),
 						 new ImageIcon(Frame.texture.rodImg[1].getScaledInstance(32, 300, Image.SCALE_DEFAULT)));
 
@@ -122,9 +118,9 @@ public class Game extends JPanel {
 	        public void mouseClicked(MouseEvent e) {
 	            if(e.getClickCount() > 0 && isAllowPick()){
 	            	if(isRodPick()==false) {
-	            		setRodPick(1); // pick rod with id = 1
+	            		setRodPick(1);
 	            	} else if(rod[1].isPick()==true){
-	            		unPickRod(1); // unpick rod with id = 1
+	            		unPickRod(1);
 	            	} else {
 	            		moveDisk(getRodPick(), 1);
 	            	}
@@ -216,7 +212,12 @@ public class Game extends JPanel {
 		
 	}
 	
-	
+	public boolean isWin() {
+		if(rod[1].peekStack().isBasekDisk() && rod[2].peekStack().isBasekDisk())
+			return true;
+		
+		return false;
+	}
 	
 	public void setRodPick(int id) {
 		rod[id].setPick(true);
@@ -253,13 +254,6 @@ public class Game extends JPanel {
 			return true;
 		else
 			notiNotLegal();
-		
-		return false;
-	}
-	
-	public boolean isWin() {
-		if(rod[1].peekStack().isBasekDisk() && rod[2].peekStack().isBasekDisk())
-			return true;
 		
 		return false;
 	}

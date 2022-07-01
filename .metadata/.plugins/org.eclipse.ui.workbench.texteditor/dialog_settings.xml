@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="iconHover"/>
+		<item key="selection" value="delete"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="delete"/>
 			<item value="hoverIcon"/>
 			<item value="normalIcon"/>
 			<item value="Frame.texture"/>
@@ -22,16 +23,15 @@
 			<item value="lst"/>
 			<item value="GamePlay.height"/>
 			<item value="isc"/>
-			<item value="rod3"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
 			<item value="iconHover"/>
 			<item value="iconNormal"/>
 			<item value="texture"/>
 			<item value="next"/>
 			<item value="Frame.texture"/>
 			<item value="btnPlay"/>
-			<item value=""/>
 			<item value="&quot;&quot;"/>
 			<item value="CircleButton"/>
 			<item value="icon"/>

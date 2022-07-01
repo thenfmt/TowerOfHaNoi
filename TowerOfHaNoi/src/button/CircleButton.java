@@ -15,10 +15,22 @@ import javax.swing.JButton;
 import frame.Frame;
 import myInterface.MyShape;
 
+
+/*
+ * class CircleButton chuyển shape mặc định của JButton từ hình chữ nhật sang hình tròn
+ * CircleButton kế thừa thừ JButton và implements MyShape
+ */
 public class CircleButton extends JButton implements MyShape{
+	
+	/*
+	 * button có hai ảnh icon tương ứng với hai trạng thái(normal hoặc hover)
+	 */
 	ImageIcon iconNormal;
 	ImageIcon iconHover;
 	
+	/*
+	 * constructor using radius and iconIndex
+	 */
 	public CircleButton(int radius, int iconIndex) {
 		super();
 		setBackground(new Color(106, 139, 158));
@@ -36,6 +48,10 @@ public class CircleButton extends JButton implements MyShape{
 		setRolloverEnabled(false);
 		setFocusPainted(false);
 		
+		
+		/*
+		 * Chuyển đổi giữa hai loại icons normal và hover khi di chuyển chuột vào button và di chuyển ra khỏi button 
+		 */
 		addMouseListener(new MouseAdapter() {
 	         public void mouseEntered(MouseEvent e) {
 	        	 setIconHover();
@@ -46,6 +62,10 @@ public class CircleButton extends JButton implements MyShape{
 	    });
 	}
 	
+	
+	/*
+	 * @overriding the constructor using 2 state of icons(normal and hover)
+	 */
 	public CircleButton(ImageIcon iconNormal,  ImageIcon iconHover) {
 		super();
 		this.iconNormal = iconNormal;

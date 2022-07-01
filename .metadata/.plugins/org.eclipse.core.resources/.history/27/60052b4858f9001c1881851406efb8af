@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import images.Texture;
-import jpanels.Game;
 import jpanels.GamePlay;
 import jpanels.Hint;
 import jpanels.Launcher;
@@ -65,7 +64,6 @@ public class Frame extends JFrame {
 	
 	//sử dụng các method gameOn(), launcherOn(), HinOn() để chuyển qua lại giữa các panels
 	public static void gameOn() {
-		Game.step = 0;
 		GamePlay gamePlay = new GamePlay();
 		contentPane.add("Game", gamePlay);
 		
